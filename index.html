@@ -2,168 +2,237 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DevilBox | Minecraft Server</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevilBox - سيرفر ماين كرافت</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
   <style>
-    /* الخط والتهيئة */
+    * {
+      box-sizing: border-box;
+    }
     body {
+      margin: 0;
       font-family: 'Cairo', sans-serif;
-      margin: 0; padding: 0;
-      background: linear-gradient(-45deg, #1a2a6c, #b21f1f, #fdbb2d, #22c1c3);
-      background-size: 400% 400%;
-      animation: bgmove 15s ease infinite;
+      /* خلفية ملونة وحيوية */
+      background: linear-gradient(135deg, #ff7e5f, #feb47b, #86a8e7, #91eae4);
       color: #fff;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      overflow-x: hidden;
+      height: 100vh;
+      overflow: hidden;
+      animation: fadeIn 2s ease;
     }
 
-    @keyframes bgmove {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      opacity: 0.15;
+      z-index: -1;
+      animation: backgroundMove 30s linear infinite alternate;
     }
 
-    header {
+    @keyframes backgroundMove {
+      from {
+        transform: scale(1) translateY(0);
+      }
+      to {
+        transform: scale(1.05) translateY(-20px);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideInUp {
+      from {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .sidebar {
+      width: 250px;
+      background: linear-gradient(180deg);
+      padding: 40px 20px;
+      box-shadow: 3px 0 15px rgba(0, 0, 0, 0.7);
+      animation: slideInLeft 1.5s ease;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 30px;
       text-align: center;
-      margin-bottom: 2rem;
-      animation: fadeInDown 1.5s ease forwards;
-      opacity: 0;
+      font-size: 24px;
+      color: #e91e63;
+      animation: pulse 2s infinite;
     }
 
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 0.2rem;
-      text-shadow: 0 0 15px #ff0000;
-    }
-
-    p {
-      font-size: 1.3rem;
-      margin: 0;
-      text-shadow: 0 0 7px #000;
-    }
-
-    /* صندوق الدخول والترحيب */
-    .box {
-      background: rgba(0,0,0,0.6);
-      padding: 2.5rem 3rem;
-      border-radius: 12px;
-      box-shadow: 0 0 25px #ff0000;
-      width: 350px;
-      max-width: 90vw;
-      text-align: center;
-      animation: fadeInUp 2s ease forwards;
-      opacity: 0;
-    }
-
-    input[type="text"] {
+    .sidebar button {
       width: 100%;
       padding: 12px;
-      font-size: 1.1rem;
-      border-radius: 8px;
+      margin-bottom: 15px;
       border: none;
-      margin-bottom: 1.5rem;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      background-color: #ff0000;
-      border: none;
-      border-radius: 8px;
+      background: #e91e63;
       color: white;
-      font-size: 1.3rem;
+      font-size: 16px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+      animation: none !important;
+    }
+    .sidebar button:hover {
+      background: #d81b60;
+      transform: scale(1.05);
+      animation: buttonPulse 0.6s ease forwards;
+      box-shadow: 0 0 15px rgba(216, 27, 96, 0.7);
     }
 
-    button:hover {
-      background-color: #cc0000;
+    @keyframes buttonPulse {
+      0% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 rgba(233, 30, 99, 0);
+      }
+      50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 15px rgba(233, 30, 99, 0.7);
+      }
+      100% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 rgba(233, 30, 99, 0);
+      }
     }
 
-    .server-ip {
-      margin-top: 1.8rem;
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #ffd700;
-      text-shadow: 0 0 8px #ffd700;
-    }
-
-    .links {
-      margin-top: 2rem;
-      font-size: 1.2rem;
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      animation: fadeInUp 3s ease forwards;
-      opacity: 0;
+      padding: 20px;
+      animation: slideInUp 2s ease;
+      position: relative;
     }
 
-    .links a {
-      color: #fff;
+    .main h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      color: #ffeb3b;
+      text-shadow: 2px 2px 10px #000;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .main input {
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      width: 300px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      text-align: center;
+      outline: none;
+      transition: box-shadow 0.3s, transform 0.2s;
+      animation: fadeIn 2s ease;
+    }
+
+    .main input:focus {
+      box-shadow: 0 0 10px #64ffda;
+      transform: scale(1.03);
+    }
+
+    .info {
+      margin-top: 20px;
+      line-height: 2;
+      font-size: 18px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 15px 25px;
+      border-radius: 10px;
+      border: 1px solid #ffffff22;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+      animation: fadeIn 1s ease forwards;
+    }
+    .info a {
+      color: #4fc3f7;
       text-decoration: none;
-      margin: 0 1.2rem;
       font-weight: bold;
-      text-shadow: 0 0 10px #ff0000;
-      transition: color 0.3s ease;
+      transition: color 0.3s;
     }
-
-    .links a:hover {
-      color: #ffd700;
-    }
-
-    /* أنيميشن FadeIn */
-    @keyframes fadeInDown {
-      from {opacity: 0; transform: translateY(-30px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-
-    @keyframes fadeInUp {
-      from {opacity: 0; transform: translateY(30px);}
-      to {opacity: 1; transform: translateY(0);}
+    .info a:hover {
+      text-decoration: underline;
+      color: #81d4fa;
     }
   </style>
 </head>
 <body>
-
-  <header>
-    <h1>DevilBox</h1>
-    <p>سيرفر ماين كرافت الرسمي</p>
-  </header>
-
-  <div class="box" id="loginBox">
-    <input type="text" id="username" placeholder="ادخل اسم المستخدم" />
-    <button onclick="login()">دخول</button>
+  <div class="sidebar">
+    <h2>DevilBox</h2>
+    <button onclick="alert('هذه الميزة قيد التطوير')">تسجيل الدخول</button>
+    <button onclick="alert('هذه الميزة قيد التطوير')">إنشاء حساب</button>
+  </div>
+  <div class="main">
+    <h1>مرحبا بك في DevilBox!</h1>
+    <input type="text" placeholder="ادخل اسمك في اللعبة" onkeydown="if(event.key==='Enter'){showInfo()}" id="username" />
+    <div class="info" id="info" style="display:none;">
+      <p><strong>رابط الديسكورد:</strong> <a href="https://discord.gg/ttAuyy2K" target="_blank">انضم الآن</a></p>
+      <p><strong>IP السيرفر:</strong> DevilBoxOS.aternos.me:58426</p>
+      <p><strong>قناة اليوتيوب:</strong> <a href="https://youtube.com/@osama_gamer60?si=CWkIFFP0JQDa0Kqq" target="_blank">@osama_gamer60</a></p>
+    </div>
   </div>
 
-  <div class="box" id="welcomeBox" style="display:none;">
-    <h2 id="welcomeMsg"></h2>
-    <div class="server-ip">IP السيرفر: DevilBoxOS.aternos.me:58426</div>
-  </div>
-
-  <div class="links">
-    <a href="http://DevilBoxOS.aternos.me:58426" target="_blank">رابط السيرفر</a> |
-    <a href="https://discord.gg/ttAuyy2K" target="_blank">ديسكورد</a>
-  </div>
+  <audio id="clickSound" src="https://media.vocaroo.com/mp3/13ZldmwncKbb"></audio>
 
   <script>
-    function login() {
-      const usernameInput = document.getElementById('username');
-      const username = usernameInput.value.trim();
-      if (username === '') {
-        alert('الرجاء إدخال اسم المستخدم');
-        return;
+    function showInfo() {
+      const username = document.getElementById('username').value;
+      if (username.trim() !== '') {
+        document.getElementById('info').style.display = 'block';
       }
-
-      document.getElementById('loginBox').style.display = 'none';
-
-      const welcomeBox = document.getElementById('welcomeBox');
-      document.getElementById('welcomeMsg').textContent = `مرحبا، ${username}!`;
-      welcomeBox.style.display = 'block';
     }
-  </script>
 
+    function playSound() {
+      const sound = document.getElementById('clickSound');
+      sound.currentTime = 0;
+      sound.play();
+    }
+
+    // تشغيل الصوت عند أي ضغطة ماوس في أي مكان
+    document.addEventListener('click', playSound);
+  </script>
 </body>
 </html>
