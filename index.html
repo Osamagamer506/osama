@@ -6,245 +6,128 @@
 <title>DevilBox</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap');
-
-  * {
-    box-sizing: border-box;
-  }
+  * { box-sizing: border-box; }
   body, html {
     margin: 0; padding: 0; height: 100%;
     font-family: 'Cairo', sans-serif;
     overflow-x: hidden;
     color: #fff;
   }
-
-  /* الخلفية مع ألوان الأزرق الفاتح والأحمر والبرتقالي بنعومة */
   .background {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: linear-gradient(135deg,
-      #a0d8f7 0%,      /* أزرق فاتح */
-      #f5a996 50%,     /* أحمر خفيف */
-      #f7c89c 100%     /* برتقالي خفيف */
-    );
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, #87CEFA 0%, #0d1b3f 100%);
     animation: backgroundShift 15s ease-in-out infinite alternate;
     z-index: -1;
   }
-
   @keyframes backgroundShift {
-    0% {
-      background-position: 0% 50%;
-    }
-    100% {
-      background-position: 100% 50%;
-    }
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
   }
-
-  /* نص DevilBox الكبير - أحمر خفيف وملون مع توهج */
   .intro-title {
-    position: fixed;
-    top: 30%; left: 50%;
+    position: fixed; top: 30%; left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 7.5rem;
-    font-weight: 900;
-    color: #cc4444; /* أحمر خفيف */
-    background: linear-gradient(45deg, #cc4444, #ff6666, #aa2222);
+    font-size: 7.5rem; font-weight: 900;
+    color: #cc4444;
+    background: linear-gradient(45deg, #cc6666, #ff8888, #aa4444); /* ألوان أفتح */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow:
-      0 0 10px #cc444477,
-      0 0 30px #ff666699,
-      0 0 40px #aa2222aa;
+    text-shadow: 0 0 10px #cc444477, 0 0 30px #ff666699, 0 0 40px #aa2222aa;
     opacity: 1;
     transition: transform 1s ease, opacity 1s ease;
-    user-select: none;
-    z-index: 10;
-
-    /* أنيميشن دخول */
+    user-select: none; z-index: 10;
     animation: introAppear 1.5s ease forwards;
   }
-
   @keyframes introAppear {
-    0% {
-      opacity: 0;
-      transform: translate(-50%, 50%) scale(0.8);
-    }
-    100% {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
+    0% { opacity: 0; transform: translate(-50%, 50%) scale(0.8); }
+    100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
   }
-
-  /* بعد الضغط - يتحرك لفوق */
   .intro-title.up {
-    top: 10%;
-    font-size: 3rem;
+    top: 10%; font-size: 3rem;
     transform: translate(-50%, 0);
     transition: transform 0.8s ease, top 0.8s ease, font-size 0.8s ease;
   }
-
-  /* نموذج التسجيل */
   .auth-container {
-    position: fixed;
-    top: 100%;
-    left: 50%;
+    position: fixed; top: 100%; left: 50%;
     transform: translate(-50%, 0);
-    width: 320px;
-    background: rgba(0,0,0,0.5);
-    border-radius: 15px;
-    padding: 30px;
+    width: 320px; background: rgba(0,0,0,0.5);
+    border-radius: 15px; padding: 30px;
     box-shadow: 0 0 20px #ffdd00aa;
-    color: #fff;
-    opacity: 0;
+    color: #fff; opacity: 0;
     transition: top 1s ease, opacity 1s ease;
     z-index: 9;
   }
-
-  /* لما يظهر */
   .auth-container.show {
-    top: 25%;
-    opacity: 1;
+    top: 25%; opacity: 1;
   }
-
   .auth-container h2 {
-    margin: 0 0 20px 0;
-    text-align: center;
-    font-weight: 700;
+    margin: 0 0 20px 0; text-align: center; font-weight: 700;
   }
-
   .auth-container label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
+    display: block; margin-bottom: 6px; font-weight: 600;
   }
-
   .auth-container input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    border: none;
-    outline: none;
-    font-size: 1rem;
+    width: 100%; padding: 10px; margin-bottom: 15px;
+    border-radius: 8px; border: none; outline: none; font-size: 1rem;
   }
-
   .auth-container button {
-    width: 100%;
-    padding: 12px;
-    background: #ffdd00;
-    border: none;
-    border-radius: 8px;
-    font-weight: 900;
-    font-size: 1.2rem;
-    color: #333;
-    cursor: pointer;
-    box-shadow: 0 0 12px #ffdd00cc;
+    width: 100%; padding: 12px;
+    background: #ffdd00; border: none; border-radius: 8px;
+    font-weight: 900; font-size: 1.2rem; color: #333;
+    cursor: pointer; box-shadow: 0 0 12px #ffdd00cc;
     transition: background-color 0.3s ease;
   }
-
   .auth-container button:hover {
     background: #e6c800;
   }
-
-  /* أزرار تسجيل الدخول والتسجيل على اليسار */
   .nav-buttons {
-    position: fixed;
-    top: 30px;
-    left: 30px;
-    display: flex;
-    gap: 15px;
-    z-index: 20;
+    position: fixed; top: 30px; left: 30px; display: flex; gap: 15px; z-index: 20;
   }
-
-  /* أزرار تسجيل الدخول والتسجيل - نص أبيض مع توهج رمادي */
   .nav-buttons button {
-    background: transparent;
-    border: 2px solid #888888cc; /* توهج رمادي خفيف */
-    padding: 8px 18px;
-    font-weight: 700;
-    color: #ffffff; /* نص أبيض */
-    border-radius: 30px;
-    cursor: pointer;
+    background: transparent; border: 2px solid #888888cc;
+    padding: 8px 18px; font-weight: 700; color: #ffffff;
+    border-radius: 30px; cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
-    box-shadow: 0 0 8px #888888cc; /* توهج رمادي */
+    box-shadow: 0 0 8px #888888cc;
   }
-
   .nav-buttons button:hover {
-    background-color: #888888cc;
-    color: #222;
+    background-color: #888888cc; color: #222;
   }
-
-  /* نص التعريف عن السيرفر تحت */
   .server-info {
-    position: fixed;
-    top: 75%;
-    left: 50%;
+    position: fixed; top: 75%; left: 50%;
     transform: translateX(-50%);
-    width: 90%;
-    max-width: 600px;
-    color: #eee;
-    font-size: 1.1rem;
-    text-align: center;
-    line-height: 1.5;
-    user-select: none;
+    width: 90%; max-width: 600px;
+    color: #eee; font-size: 1.1rem; text-align: center;
+    line-height: 1.5; user-select: none;
     transition: opacity 0.3s ease;
     z-index: 8;
   }
-
-  /* نخفي النص لما يظهر نموذج التسجيل */
   .server-info.hidden {
-    opacity: 0;
-    pointer-events: none;
+    opacity: 0; pointer-events: none;
   }
-
-  /* الإضافة الجديدة على اليمين */
   .subscribe-container {
-    position: fixed;
-    top: 40%;
-    right: 20px;
-    text-align: right;
-    z-index: 20;
+    position: fixed; top: 40%; right: 20px; text-align: right; z-index: 20;
   }
   .subscribe-text {
-    color: white;
-    font-weight: 700;
-    font-size: 1.2rem;
-    text-shadow: 1px 1px 1px rgba(0,0,0,0.6); /* ستروك أسود خفيف */
-    margin-bottom: 6px;
+    color: white; font-weight: 700; font-size: 1.2rem;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.6); margin-bottom: 6px;
   }
   .subscribe-link {
-    color: white;
-    font-weight: 900; /* نص عريض */
-    font-size: 1.1rem;
-    text-decoration: none;
-    display: inline-block;
+    color: white; font-weight: 900; font-size: 1.1rem;
+    text-decoration: none; display: inline-block;
     text-shadow: 1px 1px 1px rgba(0,0,0,0.6);
   }
   .subscribe-link:hover {
     text-decoration: underline;
   }
-
-  /* لون خاص لليوتيوب */
   .youtube-link {
     color: #FF0000;
   }
-
-  /* تكبير نص Discord */
   .discord-link {
-    font-size: 1.3rem;
-    font-weight: 900;
-    color: #7289DA;
+    font-size: 1.3rem; font-weight: 900; color: #7289DA;
   }
-
-  /* الشعار الكبير فوق اليمين */
   .logo-fixed {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 120px;
-    cursor: pointer;
-    z-index: 30;
-    user-select: none;
+    position: fixed; top: 20px; right: 20px; width: 120px;
+    cursor: pointer; z-index: 30; user-select: none;
   }
 </style>
 </head>
@@ -262,20 +145,21 @@
 <div class="auth-container" id="authContainer">
   <h2 id="authTitle">تسجيل دخول</h2>
   <form id="authForm">
-    <label for="email">البريد الإلكتروني</label>
-    <input type="email" id="email" required placeholder="example@mail.com" />
-    <label for="password">كلمة المرور</label>
+    <label for="username">اسم المستخدم</label>
+    <input type="text" id="username" required placeholder="اكتب اسمك" />
+    
+    <label for="password" id="passwordLabel">كلمة المرور</label>
     <input type="password" id="password" required placeholder="••••••••" />
+    
     <button type="submit" id="submitBtn">دخول</button>
   </form>
 </div>
 
 <div class="server-info" id="serverInfo">
-  منور بسيرفر ديفل بوكس 
-تقدر تلعب معنا من خلال الايبي , لكل الاصدارات ولنسخه الجافا ip(DevilBoxOS.aternos.me:58426).
+  منور بسيرفر ديفل بوكس <br />
+  تقدر تلعب معنا من خلال الايبي , لكل الاصدارات ولنسخه الجافا ip(DevilBoxOS.aternos.me:58426).
 </div>
 
-<!-- الإضافة الجديدة -->
 <div class="subscribe-container">
   <div class="subscribe-text">اشترك بقناتنا يا أسطورة</div>
    <a href="https://youtube.com/@osama_gamer60?si=NsoKS0te_VyaAf1I" target="_blank" class="subscribe-link youtube-link">Osamagamer60</a><br />
@@ -283,7 +167,6 @@
    <a href="https://discord.gg/ttAuyy2K" target="_blank" class="subscribe-link discord-link">Discord</a>
 </div>
 
-<!-- شعار الموقع الكبير فوق اليمين مع ريفريش عند الضغط -->
 <a href="#" onclick="location.reload(); return false;">
   <img src="https://i.ibb.co/kgjzkR47/devilbox-logo.png" alt="شعار DevilBox" class="logo-fixed" />
 </a>
@@ -305,9 +188,16 @@
     if(type === 'signin') {
       authTitle.textContent = 'تسجيل دخول';
       submitBtn.textContent = 'دخول';
+      document.getElementById('password').required = true;
+      document.getElementById('passwordLabel').style.display = 'block';
+      document.getElementById('password').style.display = 'block';
     } else {
       authTitle.textContent = 'إنشاء حساب';
       submitBtn.textContent = 'إنشاء';
+      // عند إنشاء الحساب، نخلي كلمة السر مش مطلوبة ونخفيها
+      document.getElementById('password').required = false;
+      document.getElementById('passwordLabel').style.display = 'none';
+      document.getElementById('password').style.display = 'none';
     }
     authContainer.classList.add('show');
     serverInfo.classList.add('hidden');
@@ -331,7 +221,21 @@
   authForm.addEventListener('submit', e => {
     e.preventDefault();
     playPop();
-    alert(`تمت محاولة ${submitBtn.textContent} (يمكنك ربطه مع Firebase لاحقاً)`);
+
+    const usernameInput = document.getElementById('username').value.trim();
+    const passwordInput = document.getElementById('password').value.trim();
+
+    if (submitBtn.textContent === 'إنشاء') {
+      // تسجيل بدون كلمة سر بس اسم مستخدم
+      alert(`تم إنشاء حساب للمستخدم: ${usernameInput}`);
+    } else {
+      // تسجيل دخول مع كلمة سر أو معاملة خاصة لـ daumer
+      if(usernameInput === 'daumer' && passwordInput === '123') {
+        alert('خرا عليك وعليه');
+      } else {
+        alert(`تمت محاولة تسجيل الدخول للمستخدم: ${usernameInput} (يمكنك ربطه مع Firebase لاحقاً)`);
+      }
+    }
   });
 </script>
 
