@@ -15,7 +15,7 @@
   }
   .background {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(135deg, #87CEFA 0%, #0d1b3f 100%);
+    background: linear-gradient(135deg, #87CEFA 0%, #09122f 100%);
     animation: backgroundShift 15s ease-in-out infinite alternate;
     z-index: -1;
   }
@@ -28,7 +28,7 @@
     transform: translate(-50%, -50%);
     font-size: 7.5rem; font-weight: 900;
     color: #cc4444;
-    background: linear-gradient(45deg, #cc6666, #ff8888, #aa4444); /* ألوان أفتح */
+    background: linear-gradient(45deg, #dd6666, #ff9999, #bb4444); /* ألوان أخف */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-shadow: 0 0 10px #cc444477, 0 0 30px #ff666699, 0 0 40px #aa2222aa;
@@ -129,6 +129,52 @@
     position: fixed; top: 20px; right: 20px; width: 120px;
     cursor: pointer; z-index: 30; user-select: none;
   }
+
+  /* ✅ Responsive for phones */
+  @media (max-width: 600px) {
+    .intro-title {
+      font-size: 3rem;
+      top: 25%;
+    }
+    .intro-title.up {
+      font-size: 2rem;
+      top: 5%;
+    }
+    .auth-container {
+      width: 90%;
+      padding: 20px;
+      top: 35%;
+    }
+    .auth-container.show {
+      top: 30%;
+    }
+    .nav-buttons {
+      top: 15px;
+      left: 15px;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .nav-buttons button {
+      padding: 6px 12px;
+      font-size: 0.9rem;
+    }
+    .server-info {
+      top: 85%;
+      font-size: 1rem;
+      width: 95%;
+    }
+    .subscribe-container {
+      top: unset;
+      bottom: 30px;
+      right: 10px;
+      font-size: 0.9rem;
+    }
+    .logo-fixed {
+      top: 10px;
+      right: 10px;
+      width: 80px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -194,7 +240,6 @@
     } else {
       authTitle.textContent = 'إنشاء حساب';
       submitBtn.textContent = 'إنشاء';
-      // عند إنشاء الحساب، نخلي كلمة السر مش مطلوبة ونخفيها
       document.getElementById('password').required = false;
       document.getElementById('passwordLabel').style.display = 'none';
       document.getElementById('password').style.display = 'none';
@@ -226,14 +271,12 @@
     const passwordInput = document.getElementById('password').value.trim();
 
     if (submitBtn.textContent === 'إنشاء') {
-      // تسجيل بدون كلمة سر بس اسم مستخدم
       alert(`تم إنشاء حساب للمستخدم: ${usernameInput}`);
     } else {
-      // تسجيل دخول مع كلمة سر أو معاملة خاصة لـ daumer
       if(usernameInput === 'daumer' && passwordInput === '123') {
         alert('خرا عليك وعليه');
       } else {
-        alert(`تمت محاولة تسجيل الدخول للمستخدم: ${usernameInput} (يمكنك ربطه مع Firebase لاحقاً)`);
+        alert(`تمت محاولة تسجيل الدخول للمستخدم: ${usernameInput}`);
       }
     }
   });
