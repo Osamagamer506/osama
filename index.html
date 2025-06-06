@@ -28,7 +28,7 @@
     transform: translate(-50%, -50%);
     font-size: 7.5rem; font-weight: 900;
     color: #cc4444;
-    background: linear-gradient(45deg, #dd6666, #ff9999, #bb4444); /* ألوان أخف */
+    background: linear-gradient(45deg, #dd6666, #ff9999, #bb4444);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-shadow: 0 0 10px #cc444477, 0 0 30px #ff666699, 0 0 40px #aa2222aa;
@@ -130,50 +130,51 @@
     cursor: pointer; z-index: 30; user-select: none;
   }
 
-  /* ✅ Responsive for phones */
-  @media (max-width: 600px) {
-    .intro-title {
-      font-size: 3rem;
-      top: 25%;
-    }
-    .intro-title.up {
-      font-size: 2rem;
-      top: 5%;
-    }
-    .auth-container {
-      width: 90%;
-      padding: 20px;
-      top: 35%;
-    }
-    .auth-container.show {
-      top: 30%;
-    }
-    .nav-buttons {
-      top: 15px;
-      left: 15px;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .nav-buttons button {
-      padding: 6px 12px;
-      font-size: 0.9rem;
-    }
-    .server-info {
-      top: 85%;
-      font-size: 1rem;
-      width: 95%;
-    }
-    .subscribe-container {
-      top: unset;
-      bottom: 30px;
-      right: 10px;
-      font-size: 0.9rem;
-    }
-    .logo-fixed {
-      top: 10px;
-      right: 10px;
-      width: 80px;
-    }
+  /* الرسالة "تم التسجيل" مع اسم المستخدم */
+  #successMessage {
+    display: none;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    font-size: 2rem;
+    font-weight: 900;
+    color: #ffdd00;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    background: rgba(0,0,0,0.6);
+    padding: 20px 40px;
+    border-radius: 15px;
+    user-select: none;
+    text-align: center;
+    box-shadow: 0 0 15px #ffdd00aa;
+  }
+  #successMessage.hide {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+
+  /* صفحة السيرفر تظهر بانتقال تدريجي */
+  #serverPage {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: #000d2b;
+    color: white;
+    text-align: center;
+    padding-top: 100px;
+    font-family: 'Cairo', sans-serif;
+    z-index: 9998;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  #serverPage.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
   }
 </style>
 </head>
@@ -193,17 +194,13 @@
   <form id="authForm">
     <label for="username">اسم المستخدم</label>
     <input type="text" id="username" required placeholder="اكتب اسمك" />
-    
-    <label for="password" id="passwordLabel">كلمة المرور</label>
-    <input type="password" id="password" required placeholder="••••••••" />
-    
     <button type="submit" id="submitBtn">دخول</button>
   </form>
 </div>
 
 <div class="server-info" id="serverInfo">
   منور بسيرفر ديفل بوكس <br />
-  تقدر تلعب معنا من خلال الايبي , لكل الاصدارات ولنسخه الجافا ip(DevilBoxOS.aternos.me:58426).
+  تقدر تلعب معنا فقط سجل دخولك!.
 </div>
 
 <div class="subscribe-container">
@@ -217,6 +214,15 @@
   <img src="https://i.ibb.co/kgjzkR47/devilbox-logo.png" alt="شعار DevilBox" class="logo-fixed" />
 </a>
 
+<div id="successMessage"></div>
+
+<div id="serverPage">
+  <h1 style="font-size:2.5rem; color:#ffdd00;">🎮 DevilBox Server</h1>
+  <p style="font-size:1.5rem; margin-top:20px;">IP: <span style="color:#00ffff;">DevilBoxOS.aternos.me:31776</span></p>
+  <p style="font-size:1.5rem;">الإصدار: <span style="color:#00ffff;">كل الإصدارات - نسخة الجافا</span></p>
+  <p style="font-size:1.3rem; margin-top:40px;">🔥 أفضل سيرفر <span style="color:#ff4444;">PVP</span> و <span style="color:#44ff44;">Survival</span> 🔥</p>
+</div>
+
 <script>
   const introTitle = document.getElementById('introTitle');
   const authContainer = document.getElementById('authContainer');
@@ -226,23 +232,25 @@
   const btnSignUp = document.getElementById('btnSignUp');
   const authForm = document.getElementById('authForm');
   const serverInfo = document.getElementById('serverInfo');
+  const successMessage = document.getElementById('successMessage');
+  const serverPage = document.getElementById('serverPage');
+  const navButtons = document.querySelector('.nav-buttons');
+  const subscribeContainer = document.querySelector('.subscribe-container');
+  const logoFixed = document.querySelector('.logo-fixed');
 
+  // الأصوات المستخدمة
   const popSound = new Audio('https://www.soundjay.com/buttons/sounds/button-16.mp3');
+  const successSound = new Audio('https://www.soundjay.com/buttons/sounds/button-3.mp3');
+  const transitionSound = new Audio('https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3');
 
   function showAuth(type) {
     introTitle.classList.add('up');
     if(type === 'signin') {
       authTitle.textContent = 'تسجيل دخول';
       submitBtn.textContent = 'دخول';
-      document.getElementById('password').required = true;
-      document.getElementById('passwordLabel').style.display = 'block';
-      document.getElementById('password').style.display = 'block';
     } else {
       authTitle.textContent = 'إنشاء حساب';
       submitBtn.textContent = 'إنشاء';
-      document.getElementById('password').required = false;
-      document.getElementById('passwordLabel').style.display = 'none';
-      document.getElementById('password').style.display = 'none';
     }
     authContainer.classList.add('show');
     serverInfo.classList.add('hidden');
@@ -266,19 +274,48 @@
   authForm.addEventListener('submit', e => {
     e.preventDefault();
     playPop();
-
     const usernameInput = document.getElementById('username').value.trim();
-    const passwordInput = document.getElementById('password').value.trim();
 
-    if (submitBtn.textContent === 'إنشاء') {
-      alert(`تم إنشاء حساب للمستخدم: ${usernameInput}`);
-    } else {
-      if(usernameInput === 'daumer' && passwordInput === '123') {
-        alert('خرا عليك وعليه');
-      } else {
-        alert(`تمت محاولة تسجيل الدخول للمستخدم: ${usernameInput}`);
-      }
+    const bannedUsers = ['daumer', 'daumerx','adhamx','@daumerx','@daumer'];
+    if (bannedUsers.includes(usernameInput.toLowerCase())) {
+      successMessage.textContent = 'غير مسموح للمنوب بالدخول لموقع عمهم';
+      successMessage.style.color = '#ff4444';
+      successMessage.style.display = "block";
+
+      // اختفاء الرسالة بعد ثانيتين
+      setTimeout(() => {
+        successMessage.style.display = "none";
+      }, 2000);
+
+      return; // ما يسمح بالدخول أو التنقل
     }
+
+    // كل الأسماء الثانية يسمح لهم بالدخول
+    successMessage.textContent = `مرحباً، ${usernameInput}! تم التسجيل بنجاح 🎉`;
+    successMessage.style.color = '#ffdd00';
+    successMessage.style.display = "block";
+    successSound.play();
+
+    // بعد ثانيتين يختفي الرسالة وينتقل لصفحة السيرفر
+    setTimeout(() => {
+      successMessage.classList.add('hide');
+    }, 1800);
+
+    setTimeout(() => {
+      successMessage.style.display = "none";
+      successMessage.classList.remove('hide');
+
+      // إخفاء واجهة التسجيل وازالة أزرار التنقل
+      authContainer.classList.remove('show');
+      navButtons.style.display = 'none';
+      subscribeContainer.style.display = 'none';
+      introTitle.style.display = 'none';
+      serverInfo.style.display = 'none';
+
+      // عرض صفحة السيرفر مع انتقال سلس
+      serverPage.classList.add('show');
+      transitionSound.play();
+    }, 2300);
   });
 </script>
 
